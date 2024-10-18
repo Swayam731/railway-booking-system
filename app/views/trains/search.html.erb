@@ -1,0 +1,86 @@
+ <style>
+    body
+    {
+      background-color: lightblue;   
+    }
+    .heading
+    {
+      text-align: center;
+      font-weight: bold;
+      color: #ed8611;
+    }     
+    table
+    {
+      text-align: center;
+      margin: auto;
+    }
+    .container
+    {
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 4px solid orange;
+    border-radius: 7px;
+    margin: 20px auto;
+    box-sizing: border-box;
+    }
+    table tr
+    {
+    display: flex;
+    padding: 15px;
+    justify-content: space-between;
+    }       
+  </style>
+
+<%unless user_signed_in? %>
+<% redirect_to new_user_session_path%>
+<%end%>
+<h1 class="heading">Search Train Here</h1>
+<div class="container">
+  
+<%= form_with url: search_trains_path, method: :get do |form| %>
+    <h2 class="heading">Search Train</h2>
+    <table>
+      <tr>
+        <td><%= form.label :from, "Source Station"%></td>
+        <td><%= form.text_field :source_station, id: "source"%></td>
+      </tr>
+      <tr>
+        <td><%= form.label :to, "Destination Station"%></td>
+        <td><%= form.text_field :destination_station, id: "destination"%></td>
+      </tr>
+      <tr>
+        <td><%= form.label :date, "Date"%></td>
+        <td><%= form.date_field :date%></td>
+      </tr>
+      <tr>
+        <td><%= form.submit value: "Search"%></td>
+      </tr>
+    </table>
+<%end%>
+</div>
+
+<script>
+  function filterFunction(){
+    const source = document.getElementById("source")
+    const destination = document.getElementById("destination")
+    const source_filter = source..value.toUpperCase();
+    const destination_filter = destination.value.toUpperCase();
+    <% names=[]
+    stations = Station.all
+    stations.each{|station| names << station.name}
+    %>
+    
+    for(let i=0;i< names.length; i++){
+      txtValue = names[i].textContent || names[i].innerText;
+     
+      if (txtValue.toUpperCase().indexOf(source_filter) > -1) {
+        names[i].style.display = "";
+      } else {
+        names[i].style.display = "none";
+      }
+    }
+  }
+
+</script>

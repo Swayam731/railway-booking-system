@@ -1,0 +1,34 @@
+    <p>
+      <%=@user.email%>Your Ticket was successfully booked
+    </p>
+
+    <p>
+      Your Booking details Are:
+      <table>
+        <tr>
+          <th>Train Name:</th>
+          <td><%= Train.where(id: @user.tickets.last.train_id).pick(:train_name)%></td>
+          <th>From:</th>
+          <td><%=@user.tickets.last.source%></td>
+          <th>To:</th>
+          <td><%=@user.tickets.last.destination%></td>
+        </tr>
+        <tr>
+          <th>On Date:</th>
+          <td><%=@user.tickets.last.date%></td>
+          <th>Class:</th>
+          <td><%=@user.tickets.last.journey_class%></td>
+        </tr>
+        <tr>
+          <th>Seat No.:</th>
+          <td><%=@user.tickets.last.seat_number%></td>
+          <th>Coach Number:</th>
+          <td><%=@user.tickets.last.coach_name%></td>
+        </tr>
+      </table>
+
+    </p>
+
+    <p>Thanks for using our service, have a great day!</p>
+    
+  

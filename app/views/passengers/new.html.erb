@@ -1,0 +1,63 @@
+
+<head>
+<style>
+  body{
+    background-color: lightblue;
+  }
+  #show{
+    display: none;
+  }
+</style>
+
+</head>
+
+<div class="container">
+<%= form_with model: @passenger do |form|%>
+    <% if @passenger.errors.any? %>
+  <div class="error_messages">  <h3>There were some errors with your submission:</h3>
+    <ul>
+      <% @passenger.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<%end%>
+    <h2 class="heading">Enter Your details Here</h2>
+    <%=form.hidden_field :ticket_id, value: @ticket_id %>
+    <table>
+      
+      <tr>
+        <td>Passenger 1</td>
+      </tr>
+      <tr>
+        <td><%=form.label :name, "Name"%></td>
+        <td><%=form.text_field :name %></td>
+        <td class="error_message"></td>
+      </tr>
+      <tr>
+        <td><%=form.label :age, "Age"%></td>
+        <td><%=form.number_field :age %></td>
+      </tr>
+      <%if @number_of_passenger==2%>
+      <tr>
+        <td>Passenger 2</td>
+      </tr>
+      <tr>
+        <td><%=form.label :name2, "Name"%></td>
+        <td><%=form.text_field :name2 %></td>
+        <td class="error_message"></td>
+      </tr>
+      <tr>
+        <td><%=form.label :age2, "Age"%></td>
+        <td><%=form.number_field :age2 %></td>
+      </tr>
+      <%end%>
+      <tr>
+        <td><%= form.submit value: "Proceed"%></td>
+      </tr>
+    </table>
+<%end%>
+</div>
+
+
+

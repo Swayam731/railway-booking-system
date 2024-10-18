@@ -1,0 +1,43 @@
+<style>
+  body{
+    background-color: lightblue;   
+  }
+  .heading{
+    text-align: center;
+    font-weight: bold;
+    color: #eb8034;
+  }
+  .train{
+    font-size: 30px;
+    padding: 5px; 
+    list-style: none;
+    border: 3px solid black;
+    border-radius: 14px;
+    background-color: #8dc2c9;
+  }
+  .error{
+    text-align: center;
+    font-size:30px;
+  }
+</style>
+
+<h1 class="heading">Available Trains</h1>
+
+<% if @trains.any? %>
+  <ul>
+    <% @trains.each do |train| %>
+      <%@s_time = Stop.where(train_id: train.id, station_id: @source_station.id).pick(:departure_time)
+      @d_time = Stop.where(train_id: train.id, station_id: @destination_station.id).pick(:arrival_time)%>
+      <%=form_with url: search_result_trains_path, method: :get do |form|%>
+        <%=form.hidden_field :train_id, value: train.id%>
+        <%=form.hidden_field :source, value: @source_station.name%>
+        <%=form.hidden_field :destination, value: @destination_station.name%>
+        <li class="train"><%= train.train_name %> - <%= @source_station.name %> to <%= @destination_station.name %> || Starts at: <%= @s_time&.strftime('%H:%M') %> || reaches at: <%= @d_time&.strftime('%H:%M') %>|| Seats: <%= train.capacity %></li>
+        <%=form.submit value: "Book Ticket"%>
+      <%end%>
+    <%end%>
+  </ul>
+<% else %>
+  <p class="error">No trains found</p> 
+<% end %>
+

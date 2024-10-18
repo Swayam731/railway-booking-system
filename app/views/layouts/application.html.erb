@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RailwayManagement</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload"%>
+    <%= javascript_importmap_tags %>
+
+    <style>
+      .navbar{
+      background-color: #1e1d1e;
+      height: 70px;
+      border-radius: 20px;
+      }
+      .navbar ul{
+       overflow: auto;
+      }
+      .navbar li{
+        float: left;
+        list-style: none;
+        margin: 13px 20px;
+        color: white;
+      }
+      .navbar li a{
+        padding: 3px 3px;
+        text-decoration: none;
+        color: white;
+      }
+      .navbar li a:hover{
+        color: red;
+      }
+      #username{
+        float:right;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p class="notice"><%= notice %></p> 
+    <p class="alert"><%= alert %></p>
+    <% if user_signed_in? %>
+    <header>
+      <nav class="navbar">
+        <ul>
+          <li><%= link_to "Home", homes_path%></li>
+          <li><%=link_to "Edit Profile", edit_user_registration_path%></li>
+          <li><%= link_to "Search page", trains_path%></li>
+          <li><%= link_to "My Tickets", tickets_path%></li>
+          <li><%= button_to "Sign out", destroy_user_session_path, method: :delete %></li>
+          <li id="username">Welcome <%=current_user.email %></li>
+        </ul>
+      </nav>
+    </header>
+    <%end%>
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+
+<style>
+  body{
+    background-color: lightblue;
+  }
+</style>
+<h1>Review Your Journey Details</h1>
+<%# <% @train = Train.find(@train_id)%>
+<%=form_with model: @ticket do |form|%>
+  <table>
+    <tr>
+      <td><h2>Passenger Details</h2></td>
+    </tr>
+    <tr>
+      <th><%=form.label :number_of_passengers, "Number of Passengers"%></th>
+      <td><%=form.number_field :number_of_passengers, value: @ticket.number_of_passenger, readonly: true%></td>
+      <th><%=form.label :name, "Name"%></th>
+      <td><%=form.text_field :name, value: @passengers.name, readonly: true%></td>
+      <th><%=form.label :age, "Age"%></th>
+      <td><%=form.number_field :age, value: @passengers.age, readonly: true%></td>
+      <%if @ticket.number_of_passenger==2%>
+      <th><%=form.label :name2, "Name"%></th>
+      <td><%=form.text_field :name2, value: @passengers.name2, readonly: true%></td>
+      <th><%=form.label :age2, "Age"%></th>
+      <td><%=form.number_field :age2, value: @passengers.age2, readonly: true%></td>
+      <%end%> 
+    </tr>
+
+    <tr>
+      <td><h2>Train Details</h2></td>
+    </tr>
+    
+    <tr>
+      <th><%=form.label :date, "Date"%></th>
+      <td><%=form.date_field :date, value: @ticket.date, readonly: true%></td>
+      <th><%=form.label :from, "From"%></th>
+       <td><%=form.text_field :source, value: @ticket.source, readonly: true%></td>
+      <th><%=form.label :to, "To"%></th>
+      <td><%=form.text_field :destination, value: @ticket.destination, readonly: true%></td>
+    </tr>
+
+    <tr>
+      <td><h2>Fare Details</h2></td>
+    </tr>
+    <tr>
+      <th><%=form.label :ticket_fare, "Ticket Fare"%></th>
+      <td><%=form.number_field :to, value: @fare, readonly: true%></td>
+    </tr>
+
+    <tr>
+      <td><%=form.submit value: "Confirm Booking"%></td>
+    </tr>
+  </table>
+<%end%>

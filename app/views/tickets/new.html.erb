@@ -1,0 +1,72 @@
+<style>
+    body
+    {
+      background-color: lightblue;   
+    }
+    .heading
+    {
+      text-align: center;
+      font-weight: bold;
+      color: #ed8611;
+    }     
+    table
+    {
+      text-align: center;
+      margin: auto;
+    }
+    .container
+    {
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 4px solid orange;
+    border-radius: 7px;
+    margin: 120px auto;
+    box-sizing: border-box;
+    }
+    table tr
+    {
+    display: flex;
+    padding: 15px;
+    justify-content: space-between;
+    }       
+  </style>
+
+<% if flash[:notice].present? %>
+  <div>
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+  <div class="container">
+     
+<%= form_with model: @ticket do |form|%>
+    <h2 class="heading">Enter Your details Here</h2>
+    <%=form.hidden_field :source, value: @source %>
+    <%=form.hidden_field :destination, value: @destination %>
+    <%=form.hidden_field :train_id, value: @train_id %>
+    <%=form.hidden_field :user_id, value: current_user.id %>
+   
+    <table>
+      <tr>
+        <td><%=form.label :journey_class, "Class" %></td>
+        <td><%= form.select :journey_class, ["Sleeper", "First AC", "Second AC"] %></td>
+         <td class="error_message"></td>
+      </tr>
+      <tr>
+        <td><%=form.label :number_of_passenger, "Number of Passenger" %></td>
+        <td><%=form.number_field :number_of_passenger %></td>
+         <td class="error_message"></td>
+      </tr>
+      <tr>
+        <td><%=form.label :date, "Date Of Journey" %></td>
+        <td><%=form.date_field :date %></td>
+         <td class="error_message"> </td>
+      </tr>
+      <tr>
+        <td><%= form.submit value: "Proceed"%></td>
+      </tr>
+    </table>
+<%end%>
+</div>
