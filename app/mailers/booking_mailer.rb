@@ -1,5 +1,5 @@
 class BookingMailer < ApplicationMailer
-  default from: email_address_with_name('swayamsahu31@gmail.com', "Railway Booking System")
+  default from: email_address_with_name('swayam@gmail.com', "Railway Booking System")
 
   def booking_email(user)
     @user = user
