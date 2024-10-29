@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <style>
+     body{
+      background-color: lightgrey;
+     }
+     .container{
+      text-align:center;
+     }
+     .mainheading{
+      text-align: center;
+      font-size:40px;
+     }
+     marquee{
+      font-size:30px;
+      margin-top: 30px;
+      color: #1d0c91;
+     }
+    </style>
+  </head>
+  <body>
+      <%if user_signed_in? %>
+        <%# <div>Welcome <%=current_user.email %></div> 
+        <marquee>Welcome To Railway Booking System </marquee>
+      <%else%>
+      <div class="container">
+        <h1 class="mainheading">Welcome...</h1>
+        <h3 class="subheading">click here to sign in</h3>
+        <%= link_to "Sign in", new_user_session_path%>
+        <%= link_to "Sign in as Admin", new_admin_user_session_path %>
+      </div>
+      <%end%>
+  </body>
+</html>

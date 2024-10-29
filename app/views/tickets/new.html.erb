@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa; /* Light gray background for a modern look */
+      font-family: Arial, sans-serif;
+    }
+    .heading {
+      text-align: center;
+      font-weight: bold;
+      color: #0056b3; /* Dark blue color for headings */
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px; /* Responsive width */
+      background-color: #ffffff; /* White background for the form */
+      border: 2px solid #0056b3; /* Dark blue border */
+      border-radius: 10px; /* Rounded corners */
+      margin: 50px auto; /* Centering with margin */
+      padding: 20px; /* Padding inside the container */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+    table {
+      width: 100%;
+      margin: 0 auto;
+    }
+    table td {
+      padding: 10px; /* Spacing inside cells */
+      vertical-align: middle; /* Align items vertically in the middle */
+    }
+    .form-control, .form-select {
+      border-radius: 5px; /* Rounded corners for input fields */
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+    }
+    .btn-primary {
+      background-color: #0056b3; /* Dark blue button */
+      border-color: #0056b3;
+      border-radius: 5px; /* Rounded corners */
+      padding: 10px 20px; /* Padding inside the button */
+    }
+    .btn-primary:hover {
+      background-color: #004494; /* Darker blue on hover */
+      border-color: #004494;
+    }
+    .error_message {
+      color: #dc3545; /* Red color for error messages */
+      font-size: 18px; /* Slightly smaller font size */
+      font-weight: bold;
+      text-align: center;
+    }
+    .flash-notice {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #28a745; /* Green color for success messages */
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error_message" style="display: none;"></div>
+
+  <div class="container">
+    <%= form_with model: @ticket, local: true, remote: true do |form| %>
+      <h2 class="heading">Enter Your Details Here</h2>
+      <%= form.hidden_field :source, value: @source %>
+      <%= form.hidden_field :destination, value: @destination %>
+      <%= form.hidden_field :train_id, value: @train_id %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+      
+      <table>
+        <tr>
+          <td><%= form.label :journey_class, "Class" %></td>
+          <td>
+            <%= form.select :journey_class, ["sleeper", "first AC", "second AC", "third AC"], {}, class: "form-select" %>
+            <% if @ticket.errors[:journey_class].any? %>
+              <div class="error_message">
+                <%= @ticket.errors[:journey_class].first %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= form.label :number_of_passenger, "Number of Passengers" %></td>
+          <td>
+            <%= form.number_field :number_of_passenger, class: "form-control" %>
+            <% if @ticket.errors[:number_of_passenger].any? %>
+              <div class="error_message">
+                <%= @ticket.errors[:number_of_passenger].first %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><%= form.label :date, "Date of Journey" %></td>
+          <td>
+            <%= form.date_field :date, class: "form-control" %>
+            <% if @ticket.errors[:date].any? %>
+              <div class="error_message">
+                <%= @ticket.errors[:date].first %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-center">
+            <%= form.submit "Proceed", class: "btn btn-primary" %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

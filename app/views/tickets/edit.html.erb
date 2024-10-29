@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Your Journey Details</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #e3f2fd; /* Light blue background for a clean look */
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      width: 100%;
+      max-width: 850px; /* Responsive width */
+      background-color: #ffffff; /* White background for the form */
+      border: 2px solid #007bff; /* Bootstrap blue border */
+      border-radius: 10px; /* Rounded corners */
+      margin: 50px auto; /* Centering with margin */
+      padding: 20px; /* Padding inside the container */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+    h1 {
+      text-align: center;
+      color: #007bff; /* Bootstrap blue for headings */
+      margin-bottom: 30px;
+    }
+    h2 {
+      margin-bottom: 15px;
+      color: #007bff; /* Blue color for section headings */
+    }
+    table {
+      width: 100%;
+      margin-bottom: 20px; /* Space below the table */
+    }
+    table th, table td {
+      padding: 10px; /* Spacing inside cells */
+      vertical-align: middle; /* Align items vertically in the middle */
+    }
+    .form-control-plaintext {
+      background-color: #f8f9fa; /* Light background for readonly fields */
+      border: 1px solid #ced4da; /* Border color */
+      border-radius: 5px; /* Rounded corners */
+      padding: 5px; /* Padding inside the readonly fields */
+    }
+    .btn-primary {
+      background-color: #007bff; /* Bootstrap blue button */
+      border-color: #007bff;
+      border-radius: 5px; /* Rounded corners */
+      padding: 10px 20px; /* Padding inside the button */
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+      border-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Review Your Journey Details</h1>
+    <%= form_with model: @ticket do |form| %>
+      <table class="table">
+        <tr>
+          <td colspan="4"><h2>Passenger Details</h2></td>
+        </tr>
+        <tr>
+          <th><%= form.label :number_of_passengers, "Number of Passengers" %></th>
+          <td><%= form.number_field :number_of_passengers, value: @ticket.number_of_passenger, readonly: true, class: "form-control-plaintext" %></td>
+          <th><%= form.label :name, "Name" %></th>
+          <td><%= form.text_field :name, value: @passengers.name, readonly: true, class: "form-control-plaintext" %></td>
+          <th><%= form.label :age, "Age" %></th>
+          <td><%= form.number_field :age, value: @passengers.age, readonly: true, class: "form-control-plaintext" %></td>
+        </tr>
+          <% if @ticket.number_of_passenger == 2 %>
+          <tr>
+            <th><%= form.label :name2, "Name" %></th>
+            <td><%= form.text_field :name2, value: @passengers.name2, readonly: true, class: "form-control-plaintext" %></td>
+            <th><%= form.label :age2, "Age" %></th>
+            <td><%= form.number_field :age2, value: @passengers.age2, readonly: true, class: "form-control-plaintext" %></td>
+          </tr>
+          <% end %>
+        <tr>
+          <td colspan="4"><h2>Train Details</h2></td>
+        </tr>
+        <tr>
+          <th><%= form.label :date, "Date" %></th>
+          <td><%= form.date_field :date, value: @ticket.date, readonly: true, class: "form-control-plaintext" %></td>
+          <th><%= form.label :from, "From" %></th>
+          <td><%= form.text_field :source, value: @ticket.source, readonly: true, class: "form-control-plaintext" %></td>
+          <th><%= form.label :to, "To" %></th>
+          <td><%= form.text_field :destination, value: @ticket.destination, readonly: true, class: "form-control-plaintext" %></td>
+        </tr>
+        <tr>
+          <td colspan="4"><h2>Fare Details</h2></td>
+        </tr>
+        <tr>
+          <th><%= form.label :ticket_fare, "Ticket Fare" %></th>
+          <td><%= form.number_field :ticket_fare, value: @fare, readonly: true, class: "form-control-plaintext" %></td>
+        </tr>
+        <tr>
+          <td colspan="4" class="text-center">
+            <%= form.submit "Confirm Booking", class: "btn btn-primary" %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

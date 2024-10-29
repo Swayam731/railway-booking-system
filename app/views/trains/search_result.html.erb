@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Trains</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f2f2f2; /* Light gray background for the body */
+      font-family: Arial, sans-serif;
+    }
+    .heading {
+      text-align: center;
+      font-weight: bold;
+      color: #003b70; /* Dark blue color for headings */
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+    .train-list {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+    }
+    .train {
+      font-size: 16px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #003b70; /* Dark blue border */
+      border-radius: 5px;
+      background-color: #ffffff; /* White background for the train details */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    }
+    .train div {
+      margin-bottom: 5px; /* Spacing between lines of text */
+    }
+    .train button {
+      margin-top: 10px;
+      border-radius: 5px; /* Rounded corners for the button */
+    }
+    .error {
+      text-align: center;
+      font-size: 24px;
+      color: #d32f2f; /* Red color for error messages */
+      margin-top: 20px;
+    }
+    .btn-primary {
+      background-color: #003b70; /* Dark blue button */
+      border-color: #003b70;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background-color: #002f5d;
+      border-color: #002f5d;
+    }
+    .departure_error{
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="heading">Available Trains</h1>
+
+  <% if @trains.any? %>
+    <ul class="train-list">
+      <% @trains.each do |train| %>
+        <% @s_time = Stop.where(train_id: train.id, station_id: @source_station.id).pick(:departure_time) %>
+        <% @d_time = Stop.where(train_id: train.id, station_id: @destination_station.id).pick(:arrival_time) %>
+        <%= form_with url: search_result_trains_path, method: :get, local: true do |form| %>
+          <%= form.hidden_field :train_id, value: train.id %>
+          <%= form.hidden_field :source, value: @source_station.name %>
+          <%= form.hidden_field :destination, value: @destination_station.name %>
+          <li class="train">
+            <% if train_departured?(@s_time)%>
+              <div class="departure_error">Train departured</div>
+            <% elsif chart_prepared?(@s_time)%>
+              <div class="departure_error">can't book tickets anymore chart already prepared!</div>
+            <%end%>
+            <div><strong><%= train.train_name %></strong></div>
+            <div><%= @source_station.name %> to <%= @destination_station.name %></div>
+            <div>Starts at: <%= (@s_time.in_time_zone('Asia/Kolkata'))&.strftime('%H:%M') %></div>
+            <div>Reaches at: <%= (@d_time.in_time_zone('Asia/Kolkata'))&.strftime('%H:%M') %></div>
+            <div>Seats: <%= train.capacity %></div>
+            <%= form.submit "Book Ticket", class: "btn btn-primary", disabled: chart_prepared?(@s_time) %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="error">No trains found</p>
+  <% end %>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

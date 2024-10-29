@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Trains</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f4f8; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .heading {
+      text-align: center;
+      font-weight: bold;
+      color: #007bff; 
+      margin-bottom: 20px;
+    }
+    .container {
+      max-width: 600px; 
+      background-color: #ffffff;
+      border: 2px solid #007bff;
+      border-radius: 10px;
+      margin: 20px auto;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
+    .form-label {
+      font-weight: bold; 
+    }
+    .btn-primary {
+      background-color: #007bff; 
+      border-color: #007bff;
+      border-radius: 5px; 
+    }
+    .btn-primary:hover {
+      background-color: #0056b3; 
+      border-color: #004085;
+    }
+
+    .error_message {
+      color: #dc3545;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <% unless user_signed_in? %>
+    <% redirect_to new_user_session_path %>
+  <% end %>
+
+  <h1 class="heading">Search Train Here</h1>
+
+  <div class="container">
+
+    <div class="error_message" style="display: none;"></div>
+
+    <%= form_with url: search_trains_path, method: :get do |form| %>
+      <h2 class="heading">Search Train</h2>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <%= form.label :source_station, "Source Station", class: "form-label" %>
+        </div>
+        <div class="col-md-8">
+          <%= form.text_field :source_station, id: "source", class: "form-control", onkeyup: "filterFunction('source')"%>
+          <% if @source_error.present? %>
+            <div class="error_message" id="source-error"><%= @source_error %></div>
+          <%end%>
+        </div>
+        <div class="filtered-links" id="filteredsourcestation" style="display: none;">
+            <div class="dropdown-item" onclick="selectStation('source', 'agra')">agra</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'ambala')">ambala</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'bhopal')">bhopal</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'biaora')">biaora</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'bina')">bina</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'dewas')">dewas</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'gwalior')">gwalior</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'indore')">indore</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'jammu tawi')">jammu tawi</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'jhasi')">jhasi</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'kathua')">kathua</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'katra')">katra</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'kota')">kota</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'lalitpur')">lalitpur</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'ludhiana')">ludhiana</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'maksi')">maksi</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'mathura')">mathura</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'morena')">morena</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'new delhi')">new delhi</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'palwal')">palwal</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'panipat')">panipat</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'pathankot')">pathankot</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'ruthiyai')">ruthiyai</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'sehore')">sehore</div>
+            <div class="dropdown-item" onclick="selectStation('source', 'ujjain')">ujjain</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <%= form.label :destination_station, "Destination Station", class: "form-label" %>
+        </div>
+        <div class="col-md-8">
+          <%= form.text_field :destination_station, id: "destination", class: "form-control", onkeyup: "filterFunction('destination')" %>
+          <% if @destination_error.present? %>
+            <div class="error_message" id="destination-error"><%= @destination_error %></div>
+            <%end%>
+        </div>
+         <div class="filtered-links" id="filtereddestinationstation" style="display: none;">
+            <div class="dropdown-item" onclick="selectStation('destination', 'agra')">agra</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'ambala')">ambala</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'bhopal')">bhopal</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'biaora')">biaora</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'bina')">bina</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'dewas')">dewas</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'gwalior')">gwalior</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'indore')">indore</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'jammu tawi')">jammu tawi</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'jhasi')">jhasi</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'kathua')">kathua</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'katra')">katra</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'kota')">kota</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'lalitpur')">lalitpur</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'ludhiana')">ludhiana</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'maksi')">maksi</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'mathura')">mathura</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'morena')">morena</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'new delhi')">new delhi</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'palwal')">palwal</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'panipat')">panipat</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'pathankot')">pathankot</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'ruthiyai')">ruthiyai</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'sehore')">sehore</div>
+            <div class="dropdown-item" onclick="selectStation('destination', 'ujjain')">ujjain</div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <%= form.label :date, "Date", class: "form-label" %>
+        </div>
+        <div class="col-md-8">
+          <%= form.date_field :date, class: "form-control", id: "date" %>
+          <% if @date_error.present? %>
+            <div class="error_message" id="date-error"><%= @date_error %></div>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <%= form.submit "Search", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+  function selectStation(inputType, stationName) {
+    document.getElementById(inputType).value = stationName;
+    
+    let dropdownId = inputType === 'source' ? "filteredsourcestation" : "filtereddestinationstation";
+    document.getElementById(dropdownId).style.display = "none";
+  }
+
+  function filterFunction(type) {
+    var input, filter, div, items, i;
+
+    input = document.getElementById(type === 'source' ? "source" : "destination");
+    filter = input.value.toUpperCase();
+
+    div = document.getElementById(type === 'source' ? "filteredsourcestation" : "filtereddestinationstation");
+    items = div.getElementsByClassName("dropdown-item");
+
+    div.style.display = filter.length > 0 ? "block" : "none";
+
+    let hasVisibleLinks = false;
+
+    for (i = 0; i < items.length; i++) {
+      let txtValue = items[i].textContent || items[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        items[i].style.display = "";
+        hasVisibleLinks = true;
+      } else {
+        items[i].style.display = "none";
+      }
+    }
+
+    div.style.display = hasVisibleLinks ? "block" : "none";
+  }
+</script>
+
+
+
+</html>

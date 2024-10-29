@@ -1,0 +1,72 @@
+<style>
+  body{
+    background-color: lightblue;
+  }
+  .heading{
+    color:#ed8611;
+    margin: 25px auto;
+    text-align: center;
+  }
+  .container{
+    width: 500px;
+    height: 280px;
+    text-align: center;
+    border: 3px solid #fc8803;
+    border-radius: 7px;
+    background-color: #ffffff;
+    margin: 20px auto;
+    box-sizing: border-box;
+  }
+  table{
+    text-align: center;
+    margin: auto;
+  }
+  /* #btn{
+    background-color: #f0942b;
+    color:white;
+    padding:6px;
+    width:90%;
+    border:none;
+    cursor: pointer;
+    font-size: medium;
+    border-radius: 4px;
+  }
+  #btn:hover{
+    background-color: #f2860a;
+    border: 1px solid black;
+    border-radius: 3px;
+  }
+  #btn:active{
+    background-color: #663702;
+  } */
+</style>
+
+
+<div class="container">
+  <h2 class="heading">Sign up</h2>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <table>
+    <tr>
+      <td><%= f.label :email %></td>
+      <td><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+    </tr>
+
+    <tr>
+      <td><%= f.label :password %></td>
+      <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+      <td><%= f.password_field :password, autocomplete: "new-password" %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :password_confirmation %></td>
+      <td><%= f.password_field :password_confirmation, autocomplete: "new-password" %></td>
+    </tr>
+    <tr>
+      <td id="btn"><%= f.submit "Sign up" %></td>
+    </tr>
+  </table>
+<% end %>
+<%= render "devise/shared/links" %>
+</div>

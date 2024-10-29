@@ -1,0 +1,70 @@
+<style>
+  body{
+    background-color: lightblue;
+  }
+  .heading{
+    color:#ed8611;
+    margin: 25px auto;
+    text-align: center;
+  }
+  .credential{
+    width: 500px;
+    height: 280px;
+    text-align: center;
+    border: 3px solid #fc8803;
+    border-radius: 7px;
+    background-color: #ffffff;
+    margin: 20px auto;
+    box-sizing: border-box;
+  }
+  table{
+    text-align: center;
+    margin: auto;
+  }
+  /* #btn{
+    background-color: #f0942b;
+    color:white;
+    padding:6px;
+    width:90%;
+    border:none;
+    cursor: pointer;
+    font-size: medium;
+    border-radius: 4px;
+  }
+  #btn:hover{
+    background-color: #f2860a;
+    border: 1px solid black;
+    border-radius: 3px;
+  }
+  #btn:active{
+    background-color: #663702;
+  } */
+</style>
+
+<div class="credential">
+<h2 class="heading">Log in</h2>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <table>
+    <tr>
+      <td><%= f.label :email %><br /></td>
+      <td><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+    </tr>
+
+    <tr>
+      <td><%= f.label :password %></td>
+      <td><%= f.password_field :password, autocomplete: "current-password" %></td>
+    </tr>
+    <% if devise_mapping.rememberable? %>
+    <tr>
+      <td><%= f.check_box :remember_me %></td>
+      <td><%= f.label :remember_me %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td id="btn"><%= f.submit "Log in" %></td>
+    </tr>
+  </table>
+<% end %>
+<%= render "devise/shared/links" %>
+</div>
