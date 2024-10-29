@@ -1,0 +1,20 @@
+databases:
+  - name: railway_booking_system
+    databaseName: railway_booking_system
+    user: railway_booking_system
+    plan: free
+
+services:
+  - type: web
+    plan: free
+    name: railway_booking_system
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: railway_booking_system
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
